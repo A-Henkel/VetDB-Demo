@@ -1,0 +1,68 @@
+﻿@model PagedList.IPagedList<VetDB.Models.Table>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Главная";
+}
+
+<h2>База данных</h2>
+<!--Создаем форму-->
+@using (Html.BeginForm("Index", "Main", FormMethod.Get))
+{
+    <p>
+        Поиск по имени: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string) <!--Создаем текстбокс для ключа поиска-->
+        <input type="submit" value="Поиск" /> <!--Передаем данные из текстбокса поиска контроллеру-->
+    </p>
+}
+
+<table class="table">
+    <!--Создание заголовков и конопок сортировки-->
+    <tr>
+        <th>
+            @Html.ActionLink("Имя пациента", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter }) <!-- Элемент управления сортировкой по имени. Передаем контроллеру порядок сортировки-->
+        </th>
+        <th>
+            Имя хозяина
+        </th>
+        <th>
+            @Html.ActionLink("Дата регистрации", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter }) <!-- Элемент управления сортировкой по дате. Передаем контроллеру порядок сортировки -->
+        </th>
+        <th>
+            Наличие прививки
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    { //Вывод данных столбцов для каждого элемента из базы
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name) <!--Имя пациента-->
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Owner) <!--Имя владельца-->
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegisterDate) <!--Дата регистрации-->
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vaccinated) <!-- Наличие прививки -->
+            </td>
+            <td>
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) | <!-- Содание кнопки редактирования, передаем id выбранного элемента в метод Edit -->
+                @Html.ActionLink("Подробнее", "Details", new { id = item.Id }) | <!-- Содание кнопки детального просмотра, передаем id выбранного элемента в метод Details -->
+                @Html.ActionLink("Удалить", "Delete", new { id = item.Id })  <!-- Содание кнопки Удаления, передаем id выбранного элемента в метод Delete -->
+            </td>
+        </tr>
+    }
+
+</table>
+<hr />
+<p>
+    @Html.ActionLink("Добавить нового пациента", "Create") <!-- Кнопка добавить, вызываем метод Create-->
+</p>
+
+<br />
+Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount <!--Текущая устраница-->
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })) <!--Добавляем навигационную панель-->

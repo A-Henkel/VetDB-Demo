@@ -1,0 +1,50 @@
+﻿@model VetDB.Models.Table
+
+@{
+    ViewBag.Title = "Подробная информация о пациенте";
+}
+
+    <h2>Подробная информация о пациенте</h2>
+
+    <div>
+        <!--Как и в Details, тут все просто - получаем данные из контроллера, поэлементо выводим в "dl"-->
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                <p>Имя пациента</p>
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                <p>Имя хозяина</p>
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Owner)
+            </dd>
+
+            <dt>
+                <p>Дата регистрации</p>
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.RegisterDate)
+            </dd>
+
+            <dt>
+                <p>Наличие прививки</p>
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Vaccinated)
+            </dd>
+
+        </dl>
+    </div>
+<p>
+    @Html.ActionLink("Редактировать данные", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Вернуться к списку", "Index")
+</p>

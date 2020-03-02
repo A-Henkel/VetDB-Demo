@@ -1,0 +1,56 @@
+﻿@model VetDB.Models.Table
+
+@{
+    ViewBag.Title = "Удаление записи";
+}
+
+    <h2>Удаление записи о пациенте</h2>
+
+<p class="delete-alert-h">Вы уверены, что хотите удалить эту запись?</p> <!--Как и в Details, тут все просто - получаем данные из контроллера, поэлементо выводим,  кнопкой подтверждаем удаление и передаем контроллеру id удаляемого элемента-->
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            <p>Имя пациента</p>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            <p>Имя хозяина</p>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Owner)
+        </dd>
+
+        <dt>
+            <p>Дата регистрации</p>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegisterDate)
+        </dd>
+
+        <dt>
+            <p>Наличие прививки</p>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vaccinated)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="delete-btn" /> |
+            @Html.ActionLink("Вернуться к списку", "Index")
+        </div>
+    }
+</div>
